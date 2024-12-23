@@ -113,38 +113,93 @@ class Firework {
   }
 }
 
+// Función para mostrar el texto letra por letra
+function typeText (element, text, speed) {
+  let i = 0;
+  let interval = setInterval(() => {
+    element.textContent += text.charAt(i);
+    i++;
+    if (i === text.length)  {
+        clearInterval(interval);
+    }
+  }, speed);
+}
+
+// Función para mostrar las imágenes del cumpleaños en la parte inferior
+function showBirthdayImages() {
+  const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg']; // Lista de nombres de imagen
+  const bottom = window.innerHeight - 120; // Un poco de espacio desde el borde inferior
+  const startX = window.innerWidth / 2 - (images.length * 110) / 2; // Alinear las imágenes al centro
+  images.forEach((imageSrc, index) => {
+    setTimeout(() => {
+      createImage(imageSrc, startX + index * 120, bottom);  // Muestra las imágenes una por una
+    }, index * 2000);  // Muestra una imagen cada 2 segundos
+  });
+}
+
+// Función para crear una imagen en la parte inferior
+function createImage(imageSrc, x, y) {
+  const img = document.createElement('img');
+  img.src = imageSrc;
+  img.style.position = 'absolute';
+  img.style.left = `${x}px`;  // Posición calculada en X
+  img.style.top = `${y}px`;   // Posición calculada en Y
+  img.style.width = '100px';
+  img.style.height = '100px';
+  img.style.opacity = 1;
+  document.body.appendChild(img);
+
+  // Animación para que se desvanezcan después de un tiempo
+  setTimeout(() => {
+    img.style.transition = 'opacity 1s';
+    img.style.opacity = 0;
+    setTimeout(() => img.remove(), 1000); // Elimina la imagen después de que desaparezca
+  }, 5000); // La imagen desaparecerá 5 segundos después de ser mostrada
+}
+
+// Inicializa la animación de los fuegos artificiales
+const canvas = document.getElementById('birthday');
+const ctx = canvas.getContext('2d');
+const birthday = new Birthday();
+const audio = document.getElementById('audio');
 const surpriseBtn = document.getElementById('surpriseBtn');
 const messageDiv = document.getElementById('messageDiv');
-const canvas = document.getElementById('birthday');
-const audio = document.getElementById('audio');
-let birthday = new Birthday();
-let ctx = canvas.getContext('2d');
 
+// Función para iniciar la animación al hacer clic en el botón
 surpriseBtn.onclick = function() {
-    audio.currentTime = 44; // Inicia desde el segundo 44
-    audio.play();
+  audio.currentTime = 44; // Inicia desde el segundo 44
+  audio.play();
 
-    messageDiv.style.display = 'block';
-    canvas.style.display = 'block';
-    surpriseBtn.style.display = 'none';
+  messageDiv.style.display = 'block';
+  canvas.style.display = 'block';
+  surpriseBtn.style.display = 'none';
 
-    window.onclick = (evt) => birthday.onClick(evt);
-    window.ontouchstart = (evt) => birthday.onClick(evt);
+  // Muestra 'Feliz Cumpleaños' letra por letra
+  const h1Element = document.querySelector('#messageDiv h1');
+  typeText(h1Element, 'Feliz Cumpleaños', 200);
 
-    let then = timestamp();
-    function loop() {
-        requestAnimationFrame(loop);
-        let now = timestamp();
-        let delta = now - then;
-        then = now;
-        birthday.update(delta / 1000);
-    }
-    loop();
+  // Muestra 'Beltr ♥' letra por letra después de 'Feliz Cumpleaños'
+  const nameDiv = document.getElementById('nameDiv');
+  nameDiv.style.display = 'block';
+  const nameElement = document.querySelector('#nameDiv h2');
+  setTimeout(() => {
+    typeText(nameElement, 'Beltr ♥', 200);
+  }, 3000); // Espera 3 segundos después de mostrar 'Feliz cumpleaños' antes de mostrar 'Beltr'
+
+  // Iniciar los fuegos artificiales
+  window.onclick = (evt) => birthday.onClick(evt);
+  window.ontouchstart = (evt) => birthday.onClick(evt);
+
+  let then = timestamp();
+  function loop() {
+    requestAnimationFrame(loop);
+    let now = timestamp();
+    let delta = now - then;
+    then = now;
+    birthday.update(delta / 1000);
+  }
+  loop();
+
+  // Mostrar las imágenes del cumpleañero una por una en la parte inferior
+  showBirthdayImages();
 };
-
-// Repetir la música entre 44 segundos y 1:20
-audio.addEventListener('timeupdate', () => {
-    if (audio.currentTime >= 80) {
-        audio.currentTime = 44; // Reinicia desde el segundo 44
-    }
-});
