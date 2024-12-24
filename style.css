@@ -1,0 +1,112 @@
+/* Body sin márgenes */
+body {
+  margin: 0;
+  background: #000000;
+  cursor: crosshair;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Estilo del canvas para los fuegos artificiales */
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Para que el canvas esté detrás del contenido */
+}
+
+/* Estilo del botón */
+#surpriseBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 3vw; /* Usa vw para que el tamaño se ajuste a la pantalla */
+  font-size: 3vw; /* Tamaño relativo a la pantalla */
+  color: white;
+  background-color: #096981;
+  border: 2px solid #023e4d;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#surpriseBtn:hover {
+  background-color: #4A90E2;
+  border-color: #4A90E2;
+}
+
+/* Estilo para los mensajes de cumpleaños */
+#messageDiv {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-family: 'Playfair Display', serif;
+}
+
+h1 {
+  font-size: 8vw; /* 8% del ancho de la pantalla */
+  margin: 0;  /* Evitar espacio extra alrededor del texto */
+}
+
+h2 {
+  font-size: 6vw; /* 6% del ancho de la pantalla */
+  margin: 0;  /* Evitar espacio extra alrededor del texto */
+}
+
+/* Medios adaptativos para pantallas más pequeñas */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 5em;
+  }
+  h2 {
+    font-size: 4em;
+  }
+
+  #surpriseBtn {
+    font-size: 6vw;
+    padding: 5vw;
+  }
+}
+
+/* Estilo para las imágenes (ajustar tamaño dependiendo del ancho de la pantalla) */
+img {
+  position: absolute;
+  width: 10vw; /* Tamaño relativo al 10% del ancho de la pantalla */
+  height: 10vw; /* Tamaño relativo al 10% del ancho de la pantalla */
+  transition: transform 1s ease; /* Animación para que las imágenes se muevan suavemente */
+}
+
+/* Si deseas que las imágenes cambien de tamaño al pasar el ratón sobre ellas */
+img:hover {
+  transform: scale(1.2); /* Aumenta el tamaño de la imagen cuando se pasa el ratón sobre ella */
+}
+
+/* Mejora de la visibilidad en pantallas 4K */
+@media (min-width: 2560px) {
+  #surpriseBtn {
+    font-size: 2vw; /* Ajusta el tamaño de la fuente del botón para pantallas grandes */
+    padding: 2vw;
+  }
+
+  h1 {
+    font-size: 4vw; /* Reduce el tamaño de la fuente de h1 para pantallas 4K */
+  }
+
+  h2 {
+    font-size: 4vw; /* Reduce el tamaño de la fuente de h2 para pantallas 4K */
+  }
+
+  img {
+    width: 8vw; /* Ajusta el tamaño de las imágenes en pantallas grandes */
+    height: 8vw;
+  }
+}
